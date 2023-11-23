@@ -97,3 +97,7 @@ body {
 .change-order {
   margin-left: 20px;
 }
+
+.winner {
+  background: green;
+}
