@@ -64,6 +64,7 @@ function Board({ xIsNext, squares, onPlay }) {
 export default function Game() {
     const [history, setHistory] = useState([Array(9).fill(null)]);
     const [currentMove, setCurrentMove] = useState(0);
+    const [isAscending, setIsAscending] = useState(true);
 
     const xIsNext = currentMove % 2 === 0;
     const currentSquares = history[currentMove];
@@ -79,15 +80,23 @@ export default function Game() {
     }
 
     const moves = history.map((squares, move) => {
+        let moves = [];
+
         if (move === currentMove) {
-            return <li key={move}>You are at move #{currentMove + 1}</li>;
+            moves.push(<li key={move}>You are at move #{currentMove}</li>);
+        } else if (move === 0) {
+            moves.push(<li key={move}><button onClick={() => jumpTo(move)}>Go to game start</button></li>);
+        } else {
+            moves.push(<li key={move}>
+                <button onClick={() => jumpTo(move)}>Go to move #{move}</button>
+            </li>);
         }
 
-        return (
-            <li key={move}>
-                <button onClick={() => jumpTo(move)}>Go to move #{move}</button>
-            </li>
-        );
+        if (!isAscending) {
+            moves.reverse();
+        }
+
+        return moves;
     })
 
     return (
@@ -97,7 +106,11 @@ export default function Game() {
             </div>
 
             <div className="game-info">
-                <ol>{moves}</ol>
+                <ol>{isAscending ? moves : moves.reverse()}</ol>
+
+                <div className="change-order">
+                    <button onClick={ () => { setIsAscending(!isAscending) } }>Change order</button>
+                </div>
             </div>
         </div>
     );

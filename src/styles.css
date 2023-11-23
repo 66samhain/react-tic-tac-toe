@@ -87,4 +87,13 @@ body {
 
 .game-info {
   margin-left: 20px;
+  display: flex;
+}
+
+.game-info ol {
+  margin: 0;
+ }
+
+.change-order {
+  margin-left: 20px;
 }
